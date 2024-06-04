@@ -1,13 +1,29 @@
-import React, { useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
 import { ScreenLayout } from "../../components/ScreenLayout";
 import * as ImagePicker from "expo-image-picker";
 import style from "./style";
-import { Button } from "../../components/Button";
+import { Wrapper } from "../../components/Wrapper";
+import { Calendar } from "../../components/Calendar";
+import { Text } from "../../components/Text";
+import { Space } from "../../components/Space";
+import { useCameraPermissions } from "expo-camera";
+import { History } from "../../components/History/History";
 
 export const HomeScreen = () => {
 	const [image, setImage] = useState<string | null>(null);
 	const [ccal, setCcal] = useState<string | undefined>("");
+	const [permission, requestPermission] = useCameraPermissions();
+
+	useEffect(() => {
+		requestPermission();
+	}, []);
+
+	const handleTakePhoto = async () => {
+		if (!permission) return;
+		const image = await ImagePicker.launchCameraAsync();
+		console.log(image);
+	};
 
 	const handlePickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -49,29 +65,17 @@ export const HomeScreen = () => {
 
 	return (
 		<ScreenLayout>
-			<View style={style.header}>
-				<Text style={style.h1}>Photocal</Text>
-
-				{!image && (
-					<TouchableOpacity
-						activeOpacity={0.8}
-						style={style.imagePlaceholder}
-						onPress={handlePickImage}
-					>
-						<Text style={style.h2}>Выбрать изображение</Text>
-					</TouchableOpacity>
-				)}
-
-				{image && (
-					<TouchableOpacity activeOpacity={0.8} onPress={handlePickImage}>
-						<Image source={{ uri: image }} style={style.image} />
-					</TouchableOpacity>
-				)}
-
-				<Button title="Сколько здесь каллорий?" onPress={handleSend} />
-
-				{ccal && <Text>Количество каллорий - {ccal}</Text>}
+			<View style={style.padding}>
+				<Wrapper>
+					<Text size={36} weight="bold">
+						PhotoCcal
+					</Text>
+				</Wrapper>
+				<Space v={10} />
+				<Calendar />
+				<Space v={10} />
 			</View>
+			<History onCameraPress={handleTakePhoto} />
 		</ScreenLayout>
 	);
 };

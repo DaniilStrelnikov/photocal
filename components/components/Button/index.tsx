@@ -1,5 +1,6 @@
 import React from "react";
-import { ButtonProps, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { ButtonProps, StyleSheet, TouchableOpacity } from "react-native";
+import { Text } from "../Text";
 
 type props = ButtonProps;
 
@@ -10,7 +11,9 @@ export const Button = (props: props) => {
 			activeOpacity={0.8}
 			style={style.btn}
 		>
-			<Text style={style.title}>{props.title}</Text>
+			<Text size={16} weight="bold">
+				{props.title}
+			</Text>
 		</TouchableOpacity>
 	);
 };

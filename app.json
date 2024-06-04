@@ -15,10 +15,28 @@
 			[
 				"expo-image-picker",
 				{
-					"photosPermission": "The app accesses your photos to let you share them with your friends."
+					"photosPermission": "PhotoCcal accesses your photos to let you share them with your friends."
 				}
 			],
-			"expo-secure-store"
+			"expo-secure-store",
+			[
+				"expo-font",
+				{
+					"fonts": [
+						"./assets/fonts/Exo2-Regular.woff",
+						"./assets/fonts/Exo2-SemiBold.woff",
+						"./assets/fonts/Exo2-Thin.woff"
+					]
+				}
+			],
+			[
+				"expo-camera",
+				{
+					"cameraPermission": "Allow PhotoCcal to access your camera",
+					"microphonePermission": "Allow PhotoCcal to access your microphone",
+					"recordAudioAndroid": true
+				}
+			]
 		],
 		"ios": {
 			"supportsTablet": true

@@ -1,10 +1,4 @@
-import {
-	ActivityIndicator,
-	ImageBackground,
-	SafeAreaView,
-	Text,
-	View,
-} from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import style from "./style";
 import { Input } from "../../components/Input";
 import { Space } from "../../components/Space";
@@ -12,6 +6,8 @@ import { Button } from "../../components/Button";
 import { useState } from "react";
 import { useLogin } from "../../api/useLogin";
 import { ScreenLayout } from "../../components/ScreenLayout";
+import { Wrapper } from "../../components/Wrapper";
+import { Text } from "../../components/Text";
 
 export const LoginScreen = () => {
 	const { login, loading } = useLogin();
@@ -23,9 +19,11 @@ export const LoginScreen = () => {
 	return (
 		<ScreenLayout>
 			<View style={style.wrapper}>
-				<View style={style.form}>
+				<Wrapper>
 					{loading && <ActivityIndicator />}
-					<Text style={style.title}>PhotoCal</Text>
+					<Text size={36} weight="bold">
+						PhotoCcal
+					</Text>
 					<Space v={20} />
 					<Input placeholder="E-mail" value={email} onChangeText={setEmail} />
 					<Space v={10} />
@@ -37,7 +35,7 @@ export const LoginScreen = () => {
 					/>
 					<Space v={20} />
 					<Button title="Продолжить" onPress={handleLogin} />
-				</View>
+				</Wrapper>
 			</View>
 		</ScreenLayout>
 	);

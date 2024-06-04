@@ -1,22 +1,16 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+	padding: {
+		paddingHorizontal: 20,
+	},
 	container: {
 		flex: 1,
 		backgroundColor: "#fff",
 		alignItems: "center",
 	},
-	header: {
-		alignItems: "center",
-	},
-	h1: {
-		fontSize: 24,
-		fontWeight: "600",
-	},
-	h2: {
-		fontSize: 20,
-		fontWeight: "600",
-	},
+
+	// TODO remove from home screen
 	image: {
 		width: 300,
 		height: 300,
