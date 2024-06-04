@@ -16,15 +16,17 @@ export const History = ({ onCameraPress }: props) => {
 			<View style={style.padding}>
 				<View style={style.header}>
 					<Text style={style.w100}>Всего: 2300</Text>
-					<Text size={24} style={{ flex: 1, textAlign: "center" }}>
+					<Text size={24} style={style.flexC}>
 						История
 					</Text>
-					<PressableIcon
-						name="camera"
-						size={36}
-						color="black"
-						onPress={onCameraPress}
-					/>
+					<View style={style.w100End}>
+						<PressableIcon
+							name="camera"
+							size={36}
+							color="black"
+							onPress={onCameraPress}
+						/>
+					</View>
 				</View>
 
 				<Space v={10} />

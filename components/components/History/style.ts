@@ -8,6 +8,7 @@ export default StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "space-between",
 	},
+	flexC: { flex: 1, textAlign: "center" },
 	w100: { width: 100 },
 	w100End: { width: 100, alignItems: "flex-end" },
 	row: { flexDirection: "row" },
