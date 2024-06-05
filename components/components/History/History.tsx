@@ -25,7 +25,8 @@ export const History = ({ onCameraPress, items, loading }: props) => {
 				<View style={style.header}>
 					<Text style={style.w100}>
 						Всего:{" "}
-						{(items?.map((el) => el.ccal).reduce((a, b) => a + b) as any) || 0}
+						{(items?.map((el) => el.ccal)?.reduce((a, b) => a + b, 0) as any) ||
+							0}
 					</Text>
 					<Text size={24} style={style.flexC}>
 						История

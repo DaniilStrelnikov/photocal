@@ -25,7 +25,13 @@ export const FinishScreen = () => {
 				if (!image) return;
 
 				setImage(image);
-				getCcal(image).then((data) => setData(data));
+				getCcal(image).then((data: any) => {
+					if (data?.error) {
+						goBack();
+						return;
+					}
+					setData(data.data);
+				});
 			})();
 		}, [])
 	);
@@ -42,11 +48,11 @@ export const FinishScreen = () => {
 					) : (
 						<>
 							<Text size={28} weight="bold" style={{ textAlign: "center" }}>
-								{data.data?.name}
+								{data?.name}
 							</Text>
 							<Space v={8} />
 							<Text size={20} weight="thin">
-								{data.data?.ccal}Ккал
+								{data?.ccal}Ккал
 							</Text>
 							<Space v={20} />
 							<Button title="Продолжить" onPress={goBack} />
