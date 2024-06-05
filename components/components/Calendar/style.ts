@@ -12,6 +12,17 @@ export default StyleSheet.create({
 		flexWrap: "wrap",
 		width: (35 + 10) * 7,
 	},
+	loader: {
+		position: "absolute",
+		width: 120,
+		height: 120,
+		top: "45%",
+		marginHorizontal: 20,
+		borderRadius: 20,
+		backgroundColor: "#3c3c3ccb",
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	date: {
 		width: 35,
 		height: 35,

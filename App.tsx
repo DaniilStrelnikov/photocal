@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { DateContextProvider } from "./components/context/Date";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,9 +30,11 @@ export default function App() {
 	return (
 		<GestureHandlerRootView>
 			<BottomSheetModalProvider>
-				<AuthContextProvider>
-					<MainNavigator />
-				</AuthContextProvider>
+				<DateContextProvider>
+					<AuthContextProvider>
+						<MainNavigator />
+					</AuthContextProvider>
+				</DateContextProvider>
 			</BottomSheetModalProvider>
 		</GestureHandlerRootView>
 	);

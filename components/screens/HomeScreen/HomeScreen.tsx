@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View } from "react-native";
 import { ScreenLayout } from "../../components/ScreenLayout";
-import * as ImagePicker from "expo-image-picker";
+
 import style from "./style";
 import { Wrapper } from "../../components/Wrapper";
 import { Calendar } from "../../components/Calendar";
@@ -9,58 +9,45 @@ import { Text } from "../../components/Text";
 import { Space } from "../../components/Space";
 import { useCameraPermissions } from "expo-camera";
 import { History } from "../../components/History/History";
+import { useCalendar } from "../../api/useCalendar";
+import { DateContext } from "../../context/Date";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { MainStackNavProps } from "../../navigation";
+import { useFocusEffect } from "@react-navigation/native";
+
+type NavProp = NavigationProp<MainStackNavProps, "home">;
 
 export const HomeScreen = () => {
-	const [image, setImage] = useState<string | null>(null);
-	const [ccal, setCcal] = useState<string | undefined>("");
+	const { date } = useContext(DateContext);
+	const { getCalendar, foods: dates, loading: dateL } = useCalendar();
+	const { getCalendar: getDate, foods, loading } = useCalendar();
 	const [permission, requestPermission] = useCameraPermissions();
 
+	const { navigate } = useNavigation<NavProp>();
+
+	const [image, setImage] = useState<string | null>(null);
+	const [ccal, setCcal] = useState<string | undefined>("");
+
+	useFocusEffect(
+		useCallback(() => {
+			if (!date) return;
+			getDate(date as any);
+		}, [date])
+	);
+
 	useEffect(() => {
+		getCalendar();
 		requestPermission();
 	}, []);
 
+	useEffect(() => {
+		if (!date) return;
+		getDate(date as any);
+	}, [date]);
+
 	const handleTakePhoto = async () => {
 		if (!permission) return;
-		const image = await ImagePicker.launchCameraAsync();
-		console.log(image);
-	};
-
-	const handlePickImage = async () => {
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1,
-		});
-
-		if (!result.canceled) {
-			setCcal(undefined);
-			setImage(result.assets[0].uri);
-			return;
-		}
-
-		setImage(null);
-	};
-
-	const handleSend = () => {
-		const formData = new FormData();
-		if (image) {
-			formData.append("image", {
-				uri: image,
-				name: "photo.jpg",
-				type: "image/jpeg",
-			});
-		}
-
-		fetch("http://192.168.0.107:5000/api/user/food", {
-			method: "POST",
-			body: formData,
-		})
-			.then((data) => data.json())
-			.then((data) => {
-				setCcal(data?.data);
-			})
-			.catch((err) => console.error(err));
+		navigate("finish");
 	};
 
 	return (
@@ -72,10 +59,14 @@ export const HomeScreen = () => {
 					</Text>
 				</Wrapper>
 				<Space v={10} />
-				<Calendar />
+				<Calendar dates={dates} loading={dateL} />
 				<Space v={10} />
 			</View>
-			<History onCameraPress={handleTakePhoto} />
+			<History
+				onCameraPress={handleTakePhoto}
+				items={foods}
+				loading={loading}
+			/>
 		</ScreenLayout>
 	);
 };

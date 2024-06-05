@@ -7,13 +7,22 @@ export const useMutation = (link: string) => {
 	const [error, setError] = useState<any>(undefined);
 	const [loading, setLoading] = useState(false);
 
-	const request = async (body?: any) => {
+	const request = async (body?: any, photo?: any, timeout?: Boolean) => {
 		setLoading(true);
 		setError(undefined);
 
 		const _body = body ? { json: body } : undefined;
 
-		const data = await secureApi.post(link, _body).json().catch(setError);
+		const _formData = photo
+			? {
+					body: photo,
+			  }
+			: undefined;
+
+		const data = await secureApi
+			.post(link, _formData || _body)
+			.json()
+			.catch(setError);
 		setData(data);
 		setLoading(false);
 

@@ -1,21 +1,32 @@
 import React from "react";
-import { View, FlatList, Image } from "react-native";
+import { View, FlatList, Image, ActivityIndicator } from "react-native";
 import { Space } from "../Space";
 import { Text } from "../Text";
 import style from "./style";
 import { Bottom } from "../Bottom";
 import { PressableIcon } from "../PressableIcon";
 
-type props = {
-	onCameraPress: () => void;
+type item = {
+	image: string;
+	name: string;
+	ccal: string;
 };
 
-export const History = ({ onCameraPress }: props) => {
+type props = {
+	onCameraPress: () => void;
+	items: item[];
+	loading: boolean;
+};
+
+export const History = ({ onCameraPress, items, loading }: props) => {
 	return (
 		<Bottom>
 			<View style={style.padding}>
 				<View style={style.header}>
-					<Text style={style.w100}>Всего: 2300</Text>
+					<Text style={style.w100}>
+						Всего:{" "}
+						{(items?.map((el) => el.ccal).reduce((a, b) => a + b) as any) || 0}
+					</Text>
 					<Text size={24} style={style.flexC}>
 						История
 					</Text>
@@ -31,35 +42,42 @@ export const History = ({ onCameraPress }: props) => {
 
 				<Space v={10} />
 
-				<FlatList
-					ItemSeparatorComponent={() => <Space v={10} />}
-					ListFooterComponent={() => <Space v={60} />}
-					showsVerticalScrollIndicator={false}
-					data={[...new Array(20)]}
-					renderItem={() => <HistoryItem />}
-				/>
+				{loading ? (
+					<>
+						<Space v={10} />
+						<ActivityIndicator />
+					</>
+				) : (
+					<FlatList
+						ItemSeparatorComponent={() => <Space v={10} />}
+						ListFooterComponent={() => <Space v={60} />}
+						showsVerticalScrollIndicator={false}
+						data={items}
+						renderItem={({ item }) => <HistoryItem item={item} />}
+					/>
+				)}
 			</View>
 		</Bottom>
 	);
 };
 
-const HistoryItem = () => {
+const HistoryItem = ({ item }: { item: item }) => {
 	return (
 		<View style={style.row}>
 			<Image
 				source={{
-					uri: "https://cdn.britannica.com/36/123536-050-95CB0C6E/Variety-fruits-vegetables.jpg",
+					uri: `data:image/jpeg;base64,${item.image}`,
 				}}
 				style={style.image}
 			/>
 			<Space h={6} />
 			<View style={style.center}>
 				<Text size={18} weight="bold">
-					Картошка с котлетой
+					{item.name}
 				</Text>
 				<Space v={5} />
 				<Text size={12} weight="thin">
-					300Ккал
+					{item.ccal}Ккал
 				</Text>
 			</View>
 		</View>

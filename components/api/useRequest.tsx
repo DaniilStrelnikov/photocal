@@ -12,6 +12,7 @@ export const useRequest = (link: string, secure: boolean = true) => {
 		const data = await (secure ? secureApi : api)
 			.get(link + (params ? params : ""))
 			.json()
+			.then((data) => (data as any)?.data)
 			.catch((err) => {
 				setError(err);
 			});

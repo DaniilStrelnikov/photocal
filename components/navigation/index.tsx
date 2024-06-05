@@ -4,18 +4,12 @@ import { LoginScreen } from "../screens/LoginScreen/LoginScreen";
 import { useContext } from "react";
 import { AuthContext } from "../context/Auth";
 import { HomeScreen } from "../screens/HomeScreen/HomeScreen";
+import { FinishScreen } from "../screens/FinishScreen/FinishScreen";
 
-type MainStackNavProps = {
+export type MainStackNavProps = {
 	login: undefined;
 	home: undefined;
-	create: {
-		image_url: string;
-	};
-	finish: {
-		title: string;
-		image_url: string;
-		ccal: string;
-	};
+	finish: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainStackNavProps>();
@@ -37,5 +31,6 @@ const privateStack = (auth: boolean) =>
 	auth ? (
 		<>
 			<Stack.Screen name="home" component={HomeScreen} />
+			<Stack.Screen name="finish" component={FinishScreen} />
 		</>
 	) : null;

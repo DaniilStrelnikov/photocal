@@ -9,14 +9,14 @@ type loginProps = {
 };
 
 export const useLogin = () => {
-	const { request, loading, error } = useMutation("user/login");
+	const { request, loading, error } = useMutation("login");
 	const { setAuth } = useContext(AuthContext);
 
 	const login = async (body: loginProps) => {
 		const data: any = await request(body);
-		if (!data?.data) return;
+		if (!data) return;
 
-		await SecureStore.setItemAsync("token", data.data);
+		await SecureStore.setItemAsync("token", data);
 		setAuth(true);
 	};
 
