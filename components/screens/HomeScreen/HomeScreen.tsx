@@ -25,9 +25,6 @@ export const HomeScreen = () => {
 
 	const { navigate } = useNavigation<NavProp>();
 
-	const [image, setImage] = useState<string | null>(null);
-	const [ccal, setCcal] = useState<string | undefined>("");
-
 	useFocusEffect(
 		useCallback(() => {
 			if (!date) return;

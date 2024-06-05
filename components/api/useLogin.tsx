@@ -15,8 +15,8 @@ export const useLogin = () => {
 	const login = async (body: loginProps) => {
 		const data: any = await request(body);
 		if (!data) return;
-
-		await SecureStore.setItemAsync("token", data);
+		console.log(data);
+		await SecureStore.setItemAsync("token", data.data);
 		setAuth(true);
 	};
 
